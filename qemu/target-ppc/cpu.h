@@ -1197,6 +1197,9 @@ struct CPUPPCState {
     uint32_t tm_vscr;
     uint64_t tm_dscr;
     uint64_t tm_tar;
+
+    /* Unicorn engine */
+    struct uc_struct *uc;
 };
 
 #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
@@ -1218,10 +1221,10 @@ do {                                            \
 #include "cpu-qom.h"
 
 /*****************************************************************************/
-PowerPCCPU *cpu_ppc_init(const char *cpu_model);
+PowerPCCPU *cpu_ppc_init(struct uc_struct *uc, const char *cpu_model);
 void ppc_translate_init(void);
 void gen_update_current_nip(void *opaque);
-int cpu_ppc_exec (CPUState *s);
+int cpu_ppc_exec (struct uc_struct *uc, CPUArchState *s);
 /* you can call this signal handler from your SIGBUS and SIGSEGV
    signal handlers to inform the virtual CPU of exceptions. non zero
    is returned if the signal was handled by the virtual CPU.  */
@@ -1296,7 +1299,7 @@ static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
 int ppc_dcr_read (ppc_dcr_t *dcr_env, int dcrn, uint32_t *valp);
 int ppc_dcr_write (ppc_dcr_t *dcr_env, int dcrn, uint32_t val);
 
-#define cpu_init(cpu_model) CPU(cpu_ppc_init(cpu_model))
+#define cpu_init(uc, cpu_model) CPU(cpu_ppc_init(uc, cpu_model))
 
 #define cpu_exec cpu_ppc_exec
 #define cpu_signal_handler cpu_ppc_signal_handler
@@ -1307,7 +1310,7 @@ int ppc_dcr_write (ppc_dcr_t *dcr_env, int dcrn, uint32_t val);
 #define MMU_MODE1_SUFFIX _kernel
 #define MMU_MODE2_SUFFIX _hypv
 #define MMU_USER_IDX 0
-static inline int cpu_mmu_index (CPUPPCState *env, bool ifetch)
+static inline int cpu_mmu_index (CPUPPCState *env)
 {
     return env->mmu_idx;
 }

@@ -39,9 +39,9 @@
 #define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                    \
     static void                                                             \
     glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_class_init)            \
-    (ObjectClass *oc, void *data)                                           \
+    (struct uc_struct *uc, ObjectClass *oc, void *data)                     \
     {                                                                       \
-        DeviceClass *dc = DEVICE_CLASS(oc);                                 \
+        DeviceClass *dc = DEVICE_CLASS(uc, oc);                             \
         PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);                       \
                                                                             \
         pcc->pvr          = _pvr;                                           \
