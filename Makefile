@@ -59,6 +59,17 @@ ifneq (,$(findstring mips,$(UNICORN_ARCHS)))
 	UNICORN_TARGETS += mips64-softmmu,
 	UNICORN_TARGETS += mips64el-softmmu,
 endif
+ifneq (,$(findstring ppc,$(UNICORN_ARCHS)))
+	UC_TARGET_OBJ += $(call GENOBJ,ppc-softmmu)
+	UC_TARGET_OBJ += $(call GENOBJ,ppcemb-softmmu)
+	UC_TARGET_OBJ += $(call GENOBJ,ppc64-softmmu)
+	UNICORN_CFLAGS += -DUNICORN_HAS_PPC
+	UNICORN_CFLAGS += -DUNICORN_HAS_PPCEMB
+	UNICORN_CFLAGS += -DUNICORN_HAS_PPC64
+	UNICORN_TARGETS += ppc-softmmu,
+	UNICORN_TARGETS += ppcemb-softmmu,
+	UNICORN_TARGETS += ppc64-softmmu,
+endif
 ifneq (,$(findstring sparc,$(UNICORN_ARCHS)))
 	UC_TARGET_OBJ += $(call GENOBJ,sparc-softmmu)
 	UC_TARGET_OBJ += $(call GENOBJ,sparc64-softmmu)
