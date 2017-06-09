@@ -23,6 +23,9 @@ qemu/mips64el-softmmu/
 qemu/mips64-softmmu/
 qemu/mipsel-softmmu/
 qemu/mips-softmmu/
+qemu/ppc-softmmu/
+qemu/ppcemb-softmmu/
+qemu/ppc64-softmmu/
 qemu/sparc64-softmmu/
 qemu/sparc-softmmu/
 qemu/i386-softmmu/
